@@ -1,0 +1,5 @@
+.env
+/utils/sqlQuery.js
+/node_modules
+package-lock.json
+package.json
