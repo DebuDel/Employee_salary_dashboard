@@ -19,6 +19,11 @@ app.use(bodyParser.json());
 //Global Employee Route
 app.use("/api/employee", employeeRoute);
 
+//middleware
+app.use(function (req, res) {
+  res.status(404).json({ error: "Sorry can't find that!" });
+});
+
 //Global Error Handler
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

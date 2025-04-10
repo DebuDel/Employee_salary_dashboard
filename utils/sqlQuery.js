@@ -32,4 +32,10 @@ DELETE FROM employee_details WHERE id = $1 RETURNING *;
 `;
 
 export const updateEmployeeQuery = `
-UPDATE employee_details SET name = $1, email = $2, age = $3, role = COALESCE($4::role_type, 'Intern'::role_type), salary = $5 WHERE id = $6 RETURNING *;`;
+UPDATE employee_details 
+SET
+name = COALESCE($1,name),
+email = COALESCE($2,email),
+age = COALESCE($3,age),
+role = COALESCE($4::role_type, role),
+salary = $5 WHERE id = $6 RETURNING *;`;

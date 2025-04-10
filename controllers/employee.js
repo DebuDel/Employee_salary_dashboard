@@ -57,25 +57,30 @@ export async function createEmployee(req, res, next) {
 }
 
 export async function updateEmployee(req, res, next) {
-  const id = req.params.id;
-  const { name, role, salary, age, email } = req.body;
-  if (!name || !salary || !age || !email) {
-    return res.status(400).json({ error: "Please provide all the details" });
-  }
-  const data = await query(updateEmployeeQuery, [
-    name,
-    email,
-    age,
-    role,
-    salary,
-    id,
-  ]);
+  try {
+    const { id } = req.params;
+    const { name, role, salary, age, email } = req.body;
+    if (!name || !salary || !age || !email) {
+      return res.status(400).json({ error: "Please provide all the details" });
+    }
+    const data = await query(updateEmployeeQuery, [
+      name,
+      email,
+      age,
+      role,
+      salary,
+      id,
+    ]);
 
-  if (!data.rowCount) {
-    return next(createError(400, "Employee not found"));
-  }
+    if (!data.rowCount) {
+      return res.status(400).json({ error: "Employee not found" });
+    }
 
-  res.status(200).json(data.rows[0]);
+    res.status(200).json(data.rows[0]);
+  } catch (error) {
+    console.log("Error:", error.message);
+    return next(createError(400, error.message));
+  }
 }
 
 export async function deleteEmployee(req, res, next) {
