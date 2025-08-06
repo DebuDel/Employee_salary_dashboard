@@ -13,6 +13,7 @@ const corsOptions = {
   origin: "*",
 };
 
+//set cors options
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
